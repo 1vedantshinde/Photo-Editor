@@ -1,4 +1,4 @@
-## Object-Oriented Design Principles in This Project
+## Design overview of the Java Photo Editor
 
 This Java-based Photo Editor is built with a clear focus on **Object-Oriented Programming (OOP)** principles. Below is a breakdown of how each OOP concept is applied in the architecture:
 
