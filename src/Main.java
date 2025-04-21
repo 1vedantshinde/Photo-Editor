@@ -9,12 +9,17 @@ import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import filters.BlackAndWhiteFilter;
 import filters.BlueFilter;
 import filters.VignetteFilter;
 import transforms.FlipTransform;
 import transforms.RotateTransform;
 import transforms.Transform;
+
+import exceptions.ImageSaveException;
 
 public class Main extends Application {
 
@@ -113,11 +118,15 @@ public class Main extends Application {
         );
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
-            try {
-                Image image = new Image(new FileInputStream(selectedFile));
+            try (FileInputStream fis = new FileInputStream(selectedFile)) {
+                Image image = new Image(fis);
                 imageCanvas.setImage(image);
+            } catch (FileNotFoundException ex) {
+                System.out.println("File not found: " + ex.getMessage());
+            } catch (IOException ex) {
+                System.out.println("Error reading image file: " + ex.getMessage());
             } catch (Exception ex) {
-                System.out.println("Error loading image: " + ex.getMessage());
+                System.out.println("Unexpected error: " + ex.getMessage());
             }
         }
     }

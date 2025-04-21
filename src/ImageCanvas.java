@@ -3,6 +3,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import filters.Filter;
 import transforms.Transform;
+import exceptions.ImageNotLoadedException;
+import exceptions.AdjustmentOutOfBoundsException;
 
 public class ImageCanvas {
 
@@ -25,16 +27,26 @@ public class ImageCanvas {
     }
 
     public void applyFilter(Filter filter) {
-        if (currentImage != null) {
+        try {
+            if (currentImage == null) {
+                throw new ImageNotLoadedException("Please load an image before applying filters.");
+            }
             Image filtered = filter.applyFilter(currentImage);
             setImage(filtered);
+        } catch (ImageNotLoadedException e) {
+            System.out.println("Filter Error: " + e.getMessage());
         }
     }
 
     public void applyTransform(Transform transform) {
-        if (currentImage != null) {
+        try {
+            if (currentImage == null) {
+                throw new ImageNotLoadedException("Please load an image before applying transforms.");
+            }
             Image transformed = transform.applyTransform(currentImage);
             setImage(transformed);
+        } catch (ImageNotLoadedException e) {
+            System.out.println("Transform Error: " + e.getMessage());
         }
     }
 
