@@ -18,6 +18,7 @@ import filters.VignetteFilter;
 import transforms.FlipTransform;
 import transforms.RotateTransform;
 import transforms.Transform;
+import database.ImageDAO; // Add this to the import section
 
 import exceptions.ImageSaveException;
 
@@ -50,6 +51,11 @@ public class Main extends Application {
         openItem.setOnAction(e -> openImage(stage));
         fileMenu.getItems().add(openItem);
 
+        MenuItem saveToDbItem = new MenuItem("Save Image to DB");
+        saveToDbItem.setOnAction(e -> saveImageToDatabase());
+        fileMenu.getItems().add(saveToDbItem);
+
+
         // Filters Menu
         Menu filtersMenu = createFiltersMenu();
         menuBar.getMenus().addAll(fileMenu, filtersMenu);
@@ -57,6 +63,10 @@ public class Main extends Application {
         // Transforms Menu
         Menu transformsMenu = createTransformsMenu();
         menuBar.getMenus().add(transformsMenu);
+
+
+
+        
 
         return menuBar;
     }
@@ -130,6 +140,21 @@ public class Main extends Application {
             }
         }
     }
+
+    private void saveImageToDatabase() {
+        try {
+            Image image = imageCanvas.getCurrentImage();
+            if (image != null) {
+                ImageDAO.saveImageToDB(image, "EditedImage_" + System.currentTimeMillis());
+                System.out.println("Image saved to database.");
+            } else {
+                throw new exceptions.ImageNotLoadedException("No image to save.");
+            }
+        } catch (Exception ex) {
+            System.err.println("Error saving image to DB: " + ex.getMessage());
+        }
+    }
+    
 
     public static void main(String[] args) {
         launch(args);
