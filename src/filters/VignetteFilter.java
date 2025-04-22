@@ -6,6 +6,9 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
+//calculates the centre of the image and looks for the distance upto the edges
+//iterates over each pixel and the farther the pixel is from the centre/ the closer it is to the edge, the darker it will be
+
 public class VignetteFilter extends AbstractFilter{
     public Image applyFilter(Image image) {
         int width = (int) image.getWidth();

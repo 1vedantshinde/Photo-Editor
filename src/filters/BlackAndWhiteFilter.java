@@ -6,6 +6,8 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
+//takes the average the RGB values which measures brightness. Based on the same opacity, every pixel appears as a different shade of grey
+
 public class BlackAndWhiteFilter extends AbstractFilter {
     @Override
     public Image applyFilter(Image image) {
